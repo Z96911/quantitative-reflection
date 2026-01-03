@@ -1,8 +1,8 @@
 """
-Reflection Evaluator
-====================
+反思评估器
+==========
 
-Tools for evaluating and analyzing reflection performance.
+用于评估和分析反思性能的工具。
 """
 
 from typing import Dict, List, Any
@@ -13,30 +13,30 @@ from .models import ReflectionRecord
 
 class ReflectionEvaluator:
     """
-    Evaluator for analyzing reflection performance over time.
+    反思性能评估器
 
-    Provides metrics like:
-    - Rolling accuracy
-    - Per-analyst performance comparison
-    - Weight evolution tracking
+    提供以下指标:
+    - 滚动准确率
+    - 各分析师性能对比
+    - 权重演变追踪
     """
 
     def __init__(self, reflection_records: List[ReflectionRecord] = None):
         self.records = reflection_records or []
 
     def add_records(self, records: List[ReflectionRecord]):
-        """Add reflection records for analysis."""
+        """添加反思记录用于分析。"""
         self.records.extend(records)
 
     def calculate_rolling_accuracy(self, window: int = 10) -> List[float]:
         """
-        Calculate rolling accuracy over a window.
+        计算滚动窗口内的准确率。
 
-        Args:
-            window: Number of records to average over
+        参数:
+            window: 计算平均的记录数
 
-        Returns:
-            List of rolling accuracy values
+        返回:
+            滚动准确率值列表
         """
         if len(self.records) < window:
             return []
@@ -51,10 +51,10 @@ class ReflectionEvaluator:
 
     def analyze_by_analyst(self) -> Dict[str, Dict[str, Any]]:
         """
-        Analyze performance breakdown by analyst.
+        按分析师分解性能分析。
 
-        Returns:
-            Dict with per-analyst statistics
+        返回:
+            包含各分析师统计数据的字典
         """
         analyst_data: Dict[str, Dict[str, Any]] = {}
 
@@ -75,7 +75,7 @@ class ReflectionEvaluator:
                 else:
                     analyst_data[analyst]["returns_when_wrong"].append(record.actual_return)
 
-        # Calculate summary statistics
+        # 计算汇总统计
         for analyst, data in analyst_data.items():
             data["accuracy"] = data["correct"] / data["total"] if data["total"] > 0 else 0
             data["avg_return_when_correct"] = (
@@ -90,9 +90,9 @@ class ReflectionEvaluator:
         return analyst_data
 
     def get_performance_summary(self) -> Dict[str, Any]:
-        """Get overall performance summary."""
+        """获取整体性能摘要。"""
         if not self.records:
-            return {"message": "No records to analyze"}
+            return {"message": "暂无记录可分析"}
 
         returns = [r.actual_return for r in self.records]
         correct_count = sum(1 for r in self.records if r.is_correct)

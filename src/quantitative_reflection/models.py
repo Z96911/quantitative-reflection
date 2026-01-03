@@ -1,8 +1,8 @@
 """
-Data Models for Quantitative Reflection
-========================================
+量化反思数据模型
+================
 
-Defines the core data structures for decision recording and reflection analysis.
+定义决策记录和反思分析的核心数据结构。
 """
 
 from dataclasses import dataclass, field
@@ -12,40 +12,42 @@ from typing import Dict
 
 
 class Signal(Enum):
-    """Trading signal direction"""
-    BULLISH = "bullish"
-    BEARISH = "bearish"
-    NEUTRAL = "neutral"
+    """交易信号方向"""
+    BULLISH = "bullish"   # 看涨
+    BEARISH = "bearish"   # 看跌
+    NEUTRAL = "neutral"   # 中性
 
 
 class Decision(Enum):
-    """Trading decision type"""
-    BUY = "buy"
-    SELL = "sell"
-    HOLD = "hold"
+    """交易决策类型"""
+    BUY = "buy"      # 买入
+    SELL = "sell"    # 卖出
+    HOLD = "hold"    # 持有
 
 
 @dataclass
 class DecisionRecord:
     """
-    Record of a single decision made by the system.
+    决策记录
 
-    Attributes:
-        ticker: Stock/asset symbol
-        trade_date: Date of the decision
-        decision: Final decision (buy/sell/hold)
-        confidence: Confidence level (0-1)
-        analyst_signals: Dict mapping analyst name to their signal
+    记录系统做出的每一次决策的完整信息。
+
+    属性:
+        ticker: 股票/资产代码
+        trade_date: 决策日期
+        decision: 最终决策 (买入/卖出/持有)
+        confidence: 置信度 (0-1)
+        analyst_signals: 字典，映射分析师名称到其信号
     """
     ticker: str
     trade_date: str
     decision: str
     confidence: float
 
-    # Individual analyst signals
+    # 各分析师的信号
     analyst_signals: Dict[str, str] = field(default_factory=dict)
 
-    # Metadata
+    # 元数据
     record_id: str = ""
     created_at: str = ""
 
@@ -59,35 +61,37 @@ class DecisionRecord:
 @dataclass
 class ReflectionRecord:
     """
-    Record of reflection analysis comparing prediction vs actual outcome.
+    反思记录
 
-    Attributes:
-        record_id: Reference to the original DecisionRecord
-        ticker: Stock/asset symbol
-        trade_date: Date of the original decision
-        predicted_signal: What the system predicted
-        actual_signal: What actually happened
-        is_correct: Whether the prediction was correct
-        actual_return: Actual return rate
-        analyst_accuracy: Dict mapping analyst name to whether they were correct
+    记录预测与实际结果的对比分析。
+
+    属性:
+        record_id: 关联的原始决策记录 ID
+        ticker: 股票/资产代码
+        trade_date: 原始决策日期
+        predicted_signal: 系统预测的信号
+        actual_signal: 实际发生的信号
+        is_correct: 预测是否正确
+        actual_return: 实际收益率
+        analyst_accuracy: 字典，映射分析师名称到其是否正确
     """
     record_id: str
     ticker: str
     trade_date: str
 
-    # Prediction vs Reality
+    # 预测 vs 实际
     predicted_signal: str
     actual_signal: str
     is_correct: bool
 
-    # Actual performance
+    # 实际表现
     actual_return: float
-    actual_return_extended: float = 0.0  # Longer-term return (e.g., 10-day)
+    actual_return_extended: float = 0.0  # 更长期的收益（如10日收益）
 
-    # Per-analyst accuracy
+    # 各分析师的准确性
     analyst_accuracy: Dict[str, bool] = field(default_factory=dict)
 
-    # Metadata
+    # 元数据
     reflection_date: str = ""
 
     def __post_init__(self):

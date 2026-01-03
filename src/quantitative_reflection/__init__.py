@@ -1,15 +1,14 @@
 """
-Quantitative Reflection Module
-==============================
+量化反思模块 (Quantitative Reflection Module)
+============================================
 
-A self-adaptive weight adjustment system for multi-agent decision systems.
+多智能体决策系统的自适应权重调整系统。
 
-This module tracks the historical accuracy of multiple analysts/agents and
-dynamically adjusts their weights using Softmax normalization, enabling
-the system to learn from past performance.
+本模块通过追踪多个分析师/智能体的历史准确率，
+使用 Softmax 归一化动态调整权重，使系统能够从过去的表现中学习。
 
-Author: [Your Name]
-License: MIT
+作者: Z96911
+许可证: MIT
 """
 
 from .reflector import QuantitativeReflector
